@@ -1,6 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import Container from './components/container/Container';
 
 
 function App() {
@@ -8,6 +10,9 @@ function App() {
     <div className="App">
       <header className="App-header">
       </header>
+      <Provider store={store}>
+        <Container />
+      </Provider>
     </div>
   );
 }
