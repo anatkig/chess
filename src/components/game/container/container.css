@@ -1,4 +1,18 @@
-.container{
+.inner-container{
     width:580px;
     height:580px;
+}
+.container-row {
+    width: 640px;
+}
+.letters {
+    width:580px;
+    height: 30px;
+}
+.letter {
+    width: 70px;
+}
+.number {
+    width: 30px;
+    height: 70px;
 }

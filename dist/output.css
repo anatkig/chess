@@ -593,6 +593,11 @@ video {
   margin-bottom: 1rem;
 }
 
+.mx-px {
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
 .flex {
   display: flex;
 }
@@ -673,8 +678,16 @@ video {
   flex-direction: row;
 }
 
+.flex-col {
+  flex-direction: column;
+}
+
 .flex-wrap {
   flex-wrap: wrap;
+}
+
+.place-content-center {
+  place-content: center;
 }
 
 .place-content-between {
@@ -683,6 +696,10 @@ video {
 
 .place-content-around {
   place-content: space-around;
+}
+
+.items-center {
+  align-items: center;
 }
 
 .gap-1 {
@@ -770,6 +787,10 @@ video {
 
 .pl-5 {
   padding-left: 1.25rem;
+}
+
+.text-center {
+  text-align: center;
 }
 
 .align-middle {
