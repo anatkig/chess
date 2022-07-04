@@ -8,7 +8,7 @@ import Container from './components/game/container/Container';
 
 function App() {
   return (
-    <div className="App bg-red-600">
+    <div className="App ">
       <Header />
       <Provider store={store}>
         <Container />

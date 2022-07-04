@@ -1,8 +1,9 @@
 import React from "react";
+import './cell.css';
 
-const Cell = () => {
+const Cell = ({ color }: { color: String }) => {
     return (
-        <div id="container"></div>
+        <div className={`${color === "white" ? "bg-white" : "bg-black"}  cell`} />
     )
 }
 

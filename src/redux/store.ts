@@ -1,14 +1,13 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import cellReducer from "./reducers/cells";
+import cellReducer from "./reducers/cellReducer";
 
 
 const reducer = combineReducers({
     cellReducer
 });
 
-const initialState = {};
 
-const store = configureStore({ reducer: reducer, preloadedState: initialState });
+const store = configureStore({ reducer: reducer });
 
 
 export default store;
