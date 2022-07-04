@@ -1,7 +1,10 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import cellReducer from "./reducers/cells";
 
 
-const reducer = combineReducers({});
+const reducer = combineReducers({
+    cellReducer
+});
 
 const initialState = {};
 
