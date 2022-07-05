@@ -10,7 +10,7 @@ import './piece.css';
 
 const Piece = ({ type, color }: { type: string, color: string }) => {
     return (
-        <div className="flex place-content-center piece">{
+        <div className="flex place-content-center cursor-pointer rotate-180 piece">{
             type === "knight" ? <Knight color={color} /> :
                 type === "queen" ? <Queen color={color} /> :
                     type === "king" ? <King color={color} /> :

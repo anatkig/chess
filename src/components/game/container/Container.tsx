@@ -11,7 +11,7 @@ import { CellType } from "../../../types/types";
 const Container = ({ cells }: { cells: [CellType[]] }) => {
 
     return (
-        <div className="container">
+        <div className="container rotate-180">
             <Letters />
             <div className="flex mx-auto container-row w-[640px]">
                 <Numbers />
