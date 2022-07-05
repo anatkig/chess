@@ -1,7 +1,7 @@
 const King = ({ color }: { color: string }) => {
     return (
         <svg version="1.0" xmlns="http://www.w3.org/2000/svg"
-            width="100%" height="70px" viewBox="0 0 640.000000 1280.000000"
+            width="100%" height="60px" viewBox="0 0 640.000000 1280.000000"
             preserveAspectRatio="xMidYMid meet">
             <metadata>
                 Created by potrace 1.15, written by Peter Selinger 2001-2017

@@ -1,11 +1,11 @@
 import React from "react";
-// import { ReactComponent as Knight } from '../../../assets/Chess-Knight.svg';
 import Queen from "../../pieces/Queen";
 import King from "../../pieces/King";
 import Pawn from "../../pieces/Pawn";
 import Bishop from "../../pieces/Bishop";
 import Rook from "../../pieces/Rook";
 import Knight from "../../pieces/Knight";
+import './piece.css';
 
 
 const Piece = ({ type, color }: { type: string, color: string }) => {
