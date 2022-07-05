@@ -5,7 +5,6 @@ import Cell from "../cell/Cell";
 import Letters from "../letters/Letters";
 import Numbers from "../numbers/Numbers";
 import { CellType } from "../../../types/types";
-import './container.css';
 
 
 const Container = ({ cells }: { cells: [CellType[]] }) => {
@@ -13,9 +12,9 @@ const Container = ({ cells }: { cells: [CellType[]] }) => {
     return (
         <div className="container">
             <Letters />
-            <div className="flex mx-auto container-row">
+            <div className="flex mx-auto container-row w-[640px]">
                 <Numbers />
-                <div className="flex inner-container flex-wrap mx-auto border-2 border-black place-content-around">
+                <div className="flex inner-container flex-wrap mx-auto border-2 border-black place-content-around w-[580px] h-[580px]">
                     {cells.map(row => row.map((cell, index) => <Cell color={cell.backgroundColor} key={index + cell.backgroundColor} />))}
                 </div>
                 <Numbers />

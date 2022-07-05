@@ -1,10 +1,9 @@
 import React from "react";
-import './letters.css';
 
 const Letters = () => {
     return (
-        <div className="flex mx-auto letters">
-            {[...Array(8)].map((_, index) => <div className="text-center mx-px letter">{String.fromCharCode(97 + index)}</div>)}
+        <div className="flex mx-auto letters w-[580px] h-[30px]">
+            {[...Array(8)].map((_, index) => <div className="text-center mx-px letter w-[70px]" key={index}>{String.fromCharCode(97 + index)}</div>)}
         </div>)
 }
 

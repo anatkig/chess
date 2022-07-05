@@ -1,6 +1,11 @@
 const cells: any = [...new Array(8)].map((row, rowNumber) => [...new Array(8)].map((cell, index) =>
 
-    ({ backgroundColor: rowNumber % 2 === 0 && index % 2 !== 0 ? "black" : rowNumber % 2 !== 0 && index % 2 === 0 ? "black" : "white" })
+({
+    backgroundColor:
+        rowNumber % 2 === 0 && index % 2 !== 0
+            ? "black" : rowNumber % 2 !== 0 && index % 2 === 0
+                ? "black" : "white"
+})
 ))
 
 const cellReducer = (state = cells, action: any) => {
