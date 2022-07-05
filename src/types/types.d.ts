@@ -6,4 +6,5 @@ export interface Store {
 
 export interface CellType {
     backgroundColor: string;
+    child: string;
 }
