@@ -1,10 +1,11 @@
-import { Drag } from "../types/types";
+import { Drag, CellType } from "../types/types";
 
-const pieceMoves = (
+const allowPieceMoves = (
   drag: Drag,
   pieceColor: string | undefined,
   cellIndex: number,
-  rowIndex: number
+  rowIndex: number,
+  cells: [CellType[]]
 ) => {
   const initRow = drag.dragStartCoordinates[0];
   const initCell = drag.dragStartCoordinates[1];
@@ -14,11 +15,34 @@ const pieceMoves = (
   if (initPieceColor !== pieceColor) {
     if (initType === "pawn") {
       if (initCell === cellIndex) {
-        if (
-          (initPieceColor === "white" && initRow < rowIndex) ||
-          (initPieceColor === "black" && initRow > rowIndex)
-        ) {
-          return true;
+        if (initPieceColor === "white") {
+          if (
+            initRow === 1 &&
+            (rowIndex - initRow === 2 || rowIndex - initRow === 1) &&
+            cells[rowIndex][cellIndex].child === "" &&
+            cells[rowIndex - 1][cellIndex].child === ""
+          ) {
+            return true;
+          } else if (
+            rowIndex - initRow === 1 &&
+            cells[rowIndex][cellIndex].child === ""
+          ) {
+            return true;
+          }
+        } else if (initPieceColor === "black") {
+          if (
+            initRow === 6 &&
+            (initRow - rowIndex === 2 || initRow - rowIndex === 1) &&
+            cells[rowIndex][cellIndex].child === "" &&
+            cells[rowIndex + 1][cellIndex].child === ""
+          ) {
+            return true;
+          } else if (
+            initRow - rowIndex === 1 &&
+            cells[rowIndex][cellIndex].child === ""
+          ) {
+            return true;
+          }
         }
       }
     } else if (initType === "king") {
@@ -57,4 +81,4 @@ const pieceMoves = (
   }
 };
 
-export default pieceMoves;
+export default allowPieceMoves;

@@ -2,8 +2,8 @@ import React, { ReactElement } from "react";
 import "./cell.css";
 import { connect } from "react-redux";
 import type { Dispatch } from "redux";
-import { Store, Drag } from "../../../types/types";
-import pieceMoves from "../../../logic/pieceMoves";
+import { Store, Drag, CellType } from "../../../types/types";
+import allowPieceMoves from "../../../logic/allowPieceMoves";
 
 const Cell = ({
   color,
@@ -12,6 +12,7 @@ const Cell = ({
   cellIndex,
   drag,
   pieceColor,
+  cells,
   renewOnDrop,
 }: {
   color: string;
@@ -20,6 +21,7 @@ const Cell = ({
   cellIndex: number;
   drag: Drag;
   pieceColor?: string;
+  cells: [CellType[]];
   renewOnDrop: (
     cellGiverRowNumber: number,
     cellGiverCellNumber: number,
@@ -30,7 +32,7 @@ const Cell = ({
   ) => void;
 }) => {
   const handleDropOver = (event: any) => {
-    if (pieceMoves(drag, pieceColor, cellIndex, rowIndex)) {
+    if (allowPieceMoves(drag, pieceColor, cellIndex, rowIndex, cells)) {
       event.preventDefault();
     }
   };
@@ -56,7 +58,10 @@ const Cell = ({
   );
 };
 
-const mapStateToProps = (state: Store) => ({ drag: state.dragReducer });
+const mapStateToProps = (state: Store) => ({
+  drag: state.dragReducer,
+  cells: state.cellReducer,
+});
 
 const mapDispatchtoProps = (dispatch: Dispatch) => {
   return {
