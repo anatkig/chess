@@ -21,6 +21,7 @@ const Container = ({ cells }: { cells: [CellType[]] }) => {
                 key={cellIndex + cell.backgroundColor}
                 rowIndex={rowIndex}
                 cellIndex={cellIndex}
+                pieceColor={cell.child?.split("-")[0]}
               >
                 {cell.child ? (
                   <Piece

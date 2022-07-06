@@ -45,7 +45,7 @@ const cellReducer = (state = cells, action: any) => {
       const tempCells = JSON.parse(JSON.stringify(state));
       tempCells[action.payload.cellTakerRowNumber][
         action.payload.cellTakerCellNumber
-      ].child = `${action.payload.cellGiverColor}-${action.payload.cellGiverType}`;
+      ].child = `${action.payload.cellGiverPieceColor}-${action.payload.cellGiverPieceType}`;
       tempCells[action.payload.cellGiverRowNumber][
         action.payload.cellGiverCellNumber
       ].child = "";

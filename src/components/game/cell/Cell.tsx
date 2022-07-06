@@ -3,6 +3,7 @@ import "./cell.css";
 import { connect } from "react-redux";
 import type { Dispatch } from "redux";
 import { Store, Drag } from "../../../types/types";
+import pieceMoves from "../../../logic/pieceMoves";
 
 const Cell = ({
   color,
@@ -10,6 +11,7 @@ const Cell = ({
   rowIndex,
   cellIndex,
   drag,
+  pieceColor,
   renewOnDrop,
 }: {
   color: string;
@@ -17,6 +19,7 @@ const Cell = ({
   rowIndex: number;
   cellIndex: number;
   drag: Drag;
+  pieceColor?: string;
   renewOnDrop: (
     cellGiverRowNumber: number,
     cellGiverCellNumber: number,
@@ -27,51 +30,8 @@ const Cell = ({
   ) => void;
 }) => {
   const handleDropOver = (event: any) => {
-    const initRow = drag.dragStartCoordinates[0];
-    const initCell = drag.dragStartCoordinates[1];
-    const initType = drag.type;
-    const initColor = drag.color;
-
-    if (initType === "pawn") {
-      if (initCell === cellIndex) {
-        if (
-          (initColor === "white" && initRow < rowIndex) ||
-          (initColor === "black" && initRow > rowIndex)
-        ) {
-          event.preventDefault();
-        }
-      }
-    } else if (initType === "king") {
-      if (
-        Math.abs(initRow - rowIndex) <= 1 &&
-        Math.abs(initCell - cellIndex) <= 1
-      ) {
-        event.preventDefault();
-      }
-    } else if (initType === "queen") {
-      if (
-        initRow === rowIndex ||
-        initCell === cellIndex ||
-        Math.abs(initRow - rowIndex) === Math.abs(initCell - cellIndex)
-      ) {
-        event.preventDefault();
-      }
-    } else if (initType === "rook") {
-      if (initRow === rowIndex || initCell === cellIndex) {
-        event.preventDefault();
-      }
-    } else if (initType === "bishop") {
-      if (Math.abs(initRow - rowIndex) === Math.abs(initCell - cellIndex)) {
-        event.preventDefault();
-      }
-    } else if (initType === "knight") {
-      if (
-        (Math.abs(initRow - rowIndex) === 2 &&
-          Math.abs(initCell - cellIndex) === 1) ||
-        (Math.abs(initCell - cellIndex) === 2 && Math.abs(initRow - rowIndex))
-      ) {
-        event.preventDefault();
-      }
+    if (pieceMoves(drag, pieceColor, cellIndex, rowIndex)) {
+      event.preventDefault();
     }
   };
   return (
@@ -105,8 +65,8 @@ const mapDispatchtoProps = (dispatch: Dispatch) => {
       cellGiverCellNumber: number,
       cellTakerRowNumber: number,
       cellTakerCellNumber: number,
-      cellGiverColor: string,
-      cellGiverType: string
+      cellGiverPieceColor: string,
+      cellGiverPieceType: string
     ) =>
       dispatch({
         type: "RENEW_ON_DROP",
@@ -115,8 +75,8 @@ const mapDispatchtoProps = (dispatch: Dispatch) => {
           cellGiverCellNumber,
           cellTakerRowNumber,
           cellTakerCellNumber,
-          cellGiverColor,
-          cellGiverType,
+          cellGiverPieceColor,
+          cellGiverPieceType,
         },
       }),
   };
