@@ -44,3 +44,12 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+
+
+# What to do
+
+1.Create being dragged variable in redux.
+2.on drag start write index of cell in the variable
+3.on drag drop delete element from the first cell, insert the element in the second cell

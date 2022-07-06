@@ -1,10 +1,15 @@
 export interface Store {
-    cellReducer: [
-        CellType[]
-    ]
+  cellReducer: [CellType[]];
+  dragReducer: Drag;
+}
+
+export interface Drag {
+  dragStartCoordinates: number[];
+  type: string;
+  color: string;
 }
 
 export interface CellType {
-    backgroundColor: string;
-    child: string;
+  backgroundColor: string;
+  child: string;
 }
