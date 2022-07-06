@@ -12,7 +12,7 @@ const Cell = ({
   drag,
   renewOnDrop,
 }: {
-  color: String;
+  color: string;
   children?: ReactElement;
   rowIndex: number;
   cellIndex: number;
@@ -26,12 +26,60 @@ const Cell = ({
     cellGiverType: string
   ) => void;
 }) => {
+  const handleDropOver = (event: any) => {
+    const initRow = drag.dragStartCoordinates[0];
+    const initCell = drag.dragStartCoordinates[1];
+    const initType = drag.type;
+    const initColor = drag.color;
+
+    if (initType === "pawn") {
+      if (initCell === cellIndex) {
+        if (
+          (initColor === "white" && initRow < rowIndex) ||
+          (initColor === "black" && initRow > rowIndex)
+        ) {
+          event.preventDefault();
+        }
+      }
+    } else if (initType === "king") {
+      if (
+        Math.abs(initRow - rowIndex) <= 1 &&
+        Math.abs(initCell - cellIndex) <= 1
+      ) {
+        event.preventDefault();
+      }
+    } else if (initType === "queen") {
+      if (
+        initRow === rowIndex ||
+        initCell === cellIndex ||
+        Math.abs(initRow - rowIndex) === Math.abs(initCell - cellIndex)
+      ) {
+        event.preventDefault();
+      }
+    } else if (initType === "rook") {
+      if (initRow === rowIndex || initCell === cellIndex) {
+        event.preventDefault();
+      }
+    } else if (initType === "bishop") {
+      if (Math.abs(initRow - rowIndex) === Math.abs(initCell - cellIndex)) {
+        event.preventDefault();
+      }
+    } else if (initType === "knight") {
+      if (
+        (Math.abs(initRow - rowIndex) === 2 &&
+          Math.abs(initCell - cellIndex) === 1) ||
+        (Math.abs(initCell - cellIndex) === 2 && Math.abs(initRow - rowIndex))
+      ) {
+        event.preventDefault();
+      }
+    }
+  };
   return (
     <div
       className={`${
         color === "white" ? "bg-[#E2BB7B]" : "bg-[#AE734E]"
       } flex place-items-center justify-center cell`}
-      onDragOver={(event: any) => event.preventDefault()}
+      onDragOver={handleDropOver}
       onDrop={() =>
         renewOnDrop(
           drag.dragStartCoordinates[0],
