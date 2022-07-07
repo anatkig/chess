@@ -1,4 +1,5 @@
 import { Drag, CellType } from "../types/types";
+import allowPawnMoves from "./allowPawnMoves";
 
 const allowPieceMoves = (
   drag: Drag,
@@ -14,47 +15,14 @@ const allowPieceMoves = (
 
   if (initPieceColor !== pieceColor) {
     if (initType === "pawn") {
-      if (
-        Math.abs(cellIndex - initCell) === 1 &&
-        ((initPieceColor === "white" &&
-          rowIndex - initRow === 1 &&
-          cells[rowIndex][cellIndex].child.includes("black")) ||
-          (initPieceColor === "black" &&
-            initRow - rowIndex === 1 &&
-            cells[rowIndex][cellIndex].child.includes("white")))
-      ) {
-        return true;
-      } else if (initCell === cellIndex) {
-        if (initPieceColor === "white") {
-          if (
-            initRow === 1 &&
-            (rowIndex - initRow === 2 || rowIndex - initRow === 1) &&
-            cells[rowIndex][cellIndex].child === "" &&
-            cells[rowIndex - 1][cellIndex].child === ""
-          ) {
-            return true;
-          } else if (
-            rowIndex - initRow === 1 &&
-            cells[rowIndex][cellIndex].child === ""
-          ) {
-            return true;
-          }
-        } else if (initPieceColor === "black") {
-          if (
-            initRow === 6 &&
-            (initRow - rowIndex === 2 || initRow - rowIndex === 1) &&
-            cells[rowIndex][cellIndex].child === "" &&
-            cells[rowIndex + 1][cellIndex].child === ""
-          ) {
-            return true;
-          } else if (
-            initRow - rowIndex === 1 &&
-            cells[rowIndex][cellIndex].child === ""
-          ) {
-            return true;
-          }
-        }
-      }
+      return allowPawnMoves(
+        cellIndex,
+        initCell,
+        rowIndex,
+        initRow,
+        initPieceColor,
+        cells
+      );
     } else if (initType === "king") {
       if (
         Math.abs(initRow - rowIndex) <= 1 &&
