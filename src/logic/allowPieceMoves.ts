@@ -14,7 +14,17 @@ const allowPieceMoves = (
 
   if (initPieceColor !== pieceColor) {
     if (initType === "pawn") {
-      if (initCell === cellIndex) {
+      if (
+        Math.abs(cellIndex - initCell) === 1 &&
+        ((initPieceColor === "white" &&
+          rowIndex - initRow === 1 &&
+          cells[rowIndex][cellIndex].child.includes("black")) ||
+          (initPieceColor === "black" &&
+            initRow - rowIndex === 1 &&
+            cells[rowIndex][cellIndex].child.includes("white")))
+      ) {
+        return true;
+      } else if (initCell === cellIndex) {
         if (initPieceColor === "white") {
           if (
             initRow === 1 &&
