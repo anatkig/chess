@@ -82,7 +82,8 @@ const allowPieceMoves = (
       if (
         (Math.abs(initRow - rowIndex) === 2 &&
           Math.abs(initCell - cellIndex) === 1) ||
-        (Math.abs(initCell - cellIndex) === 2 && Math.abs(initRow - rowIndex))
+        (Math.abs(initCell - cellIndex) === 2 &&
+          Math.abs(initRow - rowIndex) === 1)
       ) {
         return true;
       }
