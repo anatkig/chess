@@ -13,7 +13,11 @@ const allowKingMoves = (
     Math.abs(initCell - cellIndex) <= 1
   ) {
     return true;
-  } else if (initRow === 0 && rowIndex === 0) {
+  } else if (
+    initRow === 0 &&
+    rowIndex === 0 &&
+    cells[0][3].child === "white-king"
+  ) {
     if (
       cells[0][4].child === "" &&
       cells[0][5].child === "" &&
@@ -30,7 +34,11 @@ const allowKingMoves = (
     ) {
       return true;
     }
-  } else if (initRow === 7 && rowIndex === 7) {
+  } else if (
+    initRow === 7 &&
+    rowIndex === 7 &&
+    cells[7][3].child === "black-king"
+  ) {
     if (
       cells[7][4].child === "" &&
       cells[7][5].child === "" &&
