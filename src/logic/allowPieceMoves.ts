@@ -1,6 +1,7 @@
 import { Drag, CellType } from "../types/types";
 import allowPawnMoves from "./allowPawnMoves";
 import allowRookMoves from "./allowRookMoves";
+import allowBishopMoves from "./allowBishopMoves";
 
 const allowPieceMoves = (
   drag: Drag,
@@ -49,9 +50,14 @@ const allowPieceMoves = (
         initPieceColor
       );
     } else if (initType === "bishop") {
-      if (Math.abs(initRow - rowIndex) === Math.abs(initCell - cellIndex)) {
-        return true;
-      }
+      return allowBishopMoves(
+        initRow,
+        rowIndex,
+        initCell,
+        cellIndex,
+        cells,
+        initPieceColor
+      );
     } else if (initType === "knight") {
       if (
         (Math.abs(initRow - rowIndex) === 2 &&
