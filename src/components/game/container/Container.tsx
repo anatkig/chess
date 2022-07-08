@@ -7,7 +7,7 @@ import Numbers from "../numbers/Numbers";
 import Piece from "../piece/Piece";
 import { CellType } from "../../../types/types";
 
-const Container = ({ cells }: { cells: [CellType[]] }) => {
+const Container = ({ cells }: { cells: CellType[][] }) => {
   return (
     <div className="container rotate-180">
       <Letters />

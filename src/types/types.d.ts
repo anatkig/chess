@@ -1,5 +1,5 @@
 export interface Store {
-  cellReducer: [CellType[]];
+  cellReducer: CellType[][];
   dragReducer: Drag;
 }
 

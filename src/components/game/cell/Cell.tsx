@@ -21,7 +21,7 @@ const Cell = ({
   cellIndex: number;
   drag: Drag;
   pieceColor?: string;
-  cells: [CellType[]];
+  cells: CellType[][];
   renewOnDrop: (
     cellGiverRowNumber: number,
     cellGiverCellNumber: number,

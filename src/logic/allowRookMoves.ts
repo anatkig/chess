@@ -5,7 +5,7 @@ const allowRookMoves = (
   rowIndex: number,
   initCell: number,
   cellIndex: number,
-  cells: [CellType[]],
+  cells: CellType[][],
   initPieceColor: string
 ) => {
   if (initRow === rowIndex) {

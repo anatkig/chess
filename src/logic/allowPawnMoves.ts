@@ -6,7 +6,7 @@ const allowPawnMoves = (
   rowIndex: number,
   initRow: number,
   initPieceColor: string,
-  cells: [CellType[]]
+  cells: CellType[][]
 ) => {
   if (
     Math.abs(cellIndex - initCell) === 1 &&

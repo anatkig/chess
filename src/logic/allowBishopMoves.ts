@@ -5,7 +5,7 @@ const allowBishopMoves = (
   rowIndex: number,
   initCell: number,
   cellIndex: number,
-  cells: [CellType[]],
+  cells: CellType[][],
   initPieceColor: string
 ) => {
   if (Math.abs(initRow - rowIndex) === Math.abs(initCell - cellIndex)) {

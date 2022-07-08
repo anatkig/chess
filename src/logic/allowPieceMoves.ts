@@ -2,13 +2,14 @@ import { Drag, CellType } from "../types/types";
 import allowPawnMoves from "./allowPawnMoves";
 import allowRookMoves from "./allowRookMoves";
 import allowBishopMoves from "./allowBishopMoves";
+import allowKingMoves from "./allowKingMoves";
 
 const allowPieceMoves = (
   drag: Drag,
   pieceColor: string | undefined,
   cellIndex: number,
   rowIndex: number,
-  cells: [CellType[]]
+  cells: CellType[][]
 ) => {
   const initRow = drag.dragStartCoordinates[0];
   const initCell = drag.dragStartCoordinates[1];
@@ -26,12 +27,14 @@ const allowPieceMoves = (
         cells
       );
     } else if (initType === "king") {
-      if (
-        Math.abs(initRow - rowIndex) <= 1 &&
-        Math.abs(initCell - cellIndex) <= 1
-      ) {
-        return true;
-      }
+      return allowKingMoves(
+        initRow,
+        rowIndex,
+        initCell,
+        cellIndex,
+        cells,
+        initPieceColor
+      );
     } else if (initType === "queen") {
       // the queen, in essence, combines the rook and the bishop
       if (
