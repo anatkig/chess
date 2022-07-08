@@ -52,28 +52,40 @@ const cellReducer = (state = cells, action: any) => {
 
       if (
         data.cellGiverPieceType === "king" &&
-        data.cellGiverPieceColor === "white"
+        data.cellGiverPieceColor === "white" &&
+        data.track.whiteKing === true
       ) {
-        if (data.cellTakerRowNumber === 0 && data.cellTakerCellNumber === 1) {
+        if (
+          data.cellTakerRowNumber === 0 &&
+          data.cellTakerCellNumber === 1 &&
+          data.track.rightWhiteRook === true
+        ) {
           tempCells[0][2].child = "white-rook";
           tempCells[0][0].child = "";
         } else if (
           data.cellTakerRowNumber === 0 &&
-          data.cellTakerCellNumber === 5
+          data.cellTakerCellNumber === 5 &&
+          data.track.leftWhiteRook === true
         ) {
           tempCells[0][4].child = "white-rook";
           tempCells[0][7].child = "";
         }
       } else if (
         data.cellGiverPieceType === "king" &&
-        data.cellGiverPieceColor === "black"
+        data.cellGiverPieceColor === "black" &&
+        data.track.blackKing === true
       ) {
-        if (data.cellTakerRowNumber === 7 && data.cellTakerCellNumber === 1) {
+        if (
+          data.cellTakerRowNumber === 7 &&
+          data.cellTakerCellNumber === 1 &&
+          data.track.rightBlackRook === true
+        ) {
           tempCells[7][2].child = "black-rook";
           tempCells[7][0].child = "";
         } else if (
           data.cellTakerRowNumber === 7 &&
-          data.cellTakerCellNumber === 5
+          data.cellTakerCellNumber === 5 &&
+          data.track.leftBlackRook === true
         ) {
           tempCells[7][4].child = "black-rook";
           tempCells[7][7].child = "";

@@ -1,4 +1,4 @@
-import { Drag, CellType } from "../types/types";
+import { Drag, CellType, KingRookTracker } from "../types/types";
 import allowPawnMoves from "./allowPawnMoves";
 import allowRookMoves from "./allowRookMoves";
 import allowBishopMoves from "./allowBishopMoves";
@@ -9,7 +9,8 @@ const allowPieceMoves = (
   pieceColor: string | undefined,
   cellIndex: number,
   rowIndex: number,
-  cells: CellType[][]
+  cells: CellType[][],
+  track: KingRookTracker
 ) => {
   const initRow = drag.dragStartCoordinates[0];
   const initCell = drag.dragStartCoordinates[1];
@@ -33,7 +34,8 @@ const allowPieceMoves = (
         initCell,
         cellIndex,
         cells,
-        initPieceColor
+        initPieceColor,
+        track
       );
     } else if (initType === "queen") {
       // the queen, in essence, combines the rook and the bishop

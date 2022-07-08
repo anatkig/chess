@@ -1,6 +1,16 @@
 export interface Store {
   cellReducer: CellType[][];
   dragReducer: Drag;
+  kingRookTrackerReducer: KingRookTracker;
+}
+
+export interface KingRookTracker {
+  whiteKing: boolean;
+  blackKing: boolean;
+  leftWhiteRook: boolean;
+  rightWhiteRook: boolean;
+  leftBlackRook: boolean;
+  rightBlackRook: boolean;
 }
 
 export interface Drag {

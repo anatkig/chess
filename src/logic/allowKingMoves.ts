@@ -1,4 +1,4 @@
-import { CellType } from "../types/types";
+import { CellType, KingRookTracker } from "../types/types";
 
 const allowKingMoves = (
   initRow: number,
@@ -6,7 +6,8 @@ const allowKingMoves = (
   initCell: number,
   cellIndex: number,
   cells: CellType[][],
-  initPieceColor: string
+  initPieceColor: string,
+  track: KingRookTracker
 ) => {
   if (
     Math.abs(initRow - rowIndex) <= 1 &&
@@ -16,7 +17,8 @@ const allowKingMoves = (
   } else if (
     initRow === 0 &&
     rowIndex === 0 &&
-    cells[0][3].child === "white-king"
+    cells[0][3].child === "white-king" &&
+    track.whiteKing === true
   ) {
     if (
       cells[0][4].child === "" &&
@@ -37,7 +39,8 @@ const allowKingMoves = (
   } else if (
     initRow === 7 &&
     rowIndex === 7 &&
-    cells[7][3].child === "black-king"
+    cells[7][3].child === "black-king" &&
+    track.blackKing === true
   ) {
     if (
       cells[7][4].child === "" &&
