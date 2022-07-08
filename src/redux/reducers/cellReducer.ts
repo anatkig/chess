@@ -43,13 +43,44 @@ const cellReducer = (state = cells, action: any) => {
       );
     case "RENEW_ON_DROP":
       const tempCells = JSON.parse(JSON.stringify(state));
-      tempCells[action.payload.cellTakerRowNumber][
-        action.payload.cellTakerCellNumber
-      ].child = `${action.payload.cellGiverPieceColor}-${action.payload.cellGiverPieceType}`;
-      tempCells[action.payload.cellGiverRowNumber][
-        action.payload.cellGiverCellNumber
-      ].child = "";
+      const data = action.payload;
+
+      tempCells[data.cellTakerRowNumber][
+        data.cellTakerCellNumber
+      ].child = `${data.cellGiverPieceColor}-${data.cellGiverPieceType}`;
+      tempCells[data.cellGiverRowNumber][data.cellGiverCellNumber].child = "";
+
+      if (
+        data.cellGiverPieceType === "king" &&
+        data.cellGiverPieceColor === "white"
+      ) {
+        if (data.cellTakerRowNumber === 0 && data.cellTakerCellNumber === 1) {
+          tempCells[0][2].child = "white-rook";
+          tempCells[0][0].child = "";
+        } else if (
+          data.cellTakerRowNumber === 0 &&
+          data.cellTakerCellNumber === 5
+        ) {
+          tempCells[0][4].child = "white-rook";
+          tempCells[0][7].child = "";
+        }
+      } else if (
+        data.cellGiverPieceType === "king" &&
+        data.cellGiverPieceColor === "black"
+      ) {
+        if (data.cellTakerRowNumber === 7 && data.cellTakerCellNumber === 1) {
+          tempCells[7][2].child = "black-rook";
+          tempCells[7][0].child = "";
+        } else if (
+          data.cellTakerRowNumber === 7 &&
+          data.cellTakerCellNumber === 5
+        ) {
+          tempCells[7][4].child = "black-rook";
+          tempCells[7][7].child = "";
+        }
+      }
       return tempCells;
+
     default:
       return state;
   }

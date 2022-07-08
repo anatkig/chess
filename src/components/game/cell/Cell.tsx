@@ -42,7 +42,7 @@ const Cell = ({
         color === "white" ? "bg-[#E2BB7B]" : "bg-[#AE734E]"
       } flex place-items-center justify-center cell`}
       onDragOver={handleDropOver}
-      onDrop={() =>
+      onDrop={() => {
         renewOnDrop(
           drag.dragStartCoordinates[0],
           drag.dragStartCoordinates[1],
@@ -50,8 +50,8 @@ const Cell = ({
           cellIndex,
           drag.color,
           drag.type
-        )
-      }
+        );
+      }}
     >
       {children}
     </div>
