@@ -38,7 +38,7 @@ const allowRookMoves = (
       });
     } else {
       cells.slice(rowIndex + 1, initRow).forEach((row, rowInd) => {
-        passedCells.push(cells[rowInd + initRow + 1][cellIndex]);
+        passedCells.push(cells[rowInd + rowIndex + 1][cellIndex]);
       });
     }
     if (

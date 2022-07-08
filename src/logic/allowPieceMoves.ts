@@ -33,10 +33,24 @@ const allowPieceMoves = (
         return true;
       }
     } else if (initType === "queen") {
+      // the queen, in essence, combines the rook and the bishop
       if (
-        initRow === rowIndex ||
-        initCell === cellIndex ||
-        Math.abs(initRow - rowIndex) === Math.abs(initCell - cellIndex)
+        allowBishopMoves(
+          initRow,
+          rowIndex,
+          initCell,
+          cellIndex,
+          cells,
+          initPieceColor
+        ) ||
+        allowRookMoves(
+          initRow,
+          rowIndex,
+          initCell,
+          cellIndex,
+          cells,
+          initPieceColor
+        )
       ) {
         return true;
       }
