@@ -2,6 +2,11 @@ export interface Store {
   cellReducer: CellType[][];
   dragReducer: Drag;
   kingRookTrackerReducer: KingRookTracker;
+  moveTurnReducer: MoveTurn;
+}
+
+export interface MoveTurn {
+  turn: boolean;
 }
 
 export interface KingRookTracker {

@@ -14,8 +14,11 @@ const Cell = ({
   pieceColor,
   cells,
   track,
+  turn,
   renewOnDrop,
   trackKingRookFirstMoves,
+  moveWhite,
+  moveBlack,
 }: {
   color: string;
   children?: ReactElement;
@@ -25,6 +28,7 @@ const Cell = ({
   pieceColor?: string;
   cells: CellType[][];
   track: KingRookTracker;
+  turn: boolean;
   renewOnDrop: (
     cellGiverRowNumber: number,
     cellGiverCellNumber: number,
@@ -40,9 +44,13 @@ const Cell = ({
     pieceType: string,
     pieceColor: string
   ) => void;
+  moveWhite: () => void;
+  moveBlack: () => void;
 }) => {
   const handleDragOver = (event: any) => {
-    if (allowPieceMoves(drag, pieceColor, cellIndex, rowIndex, cells, track)) {
+    if (
+      allowPieceMoves(drag, pieceColor, cellIndex, rowIndex, cells, track, turn)
+    ) {
       event.preventDefault();
     }
   };
@@ -70,6 +78,11 @@ const Cell = ({
             drag.color
           );
         }
+        if (drag.color === "white") {
+          moveBlack();
+        } else {
+          moveWhite();
+        }
       }}
     >
       {children}
@@ -81,6 +94,7 @@ const mapStateToProps = (state: Store) => ({
   drag: state.dragReducer,
   cells: state.cellReducer,
   track: state.kingRookTrackerReducer,
+  turn: state.moveTurnReducer.turn,
 });
 
 const mapDispatchtoProps = (dispatch: Dispatch) => {
@@ -116,6 +130,8 @@ const mapDispatchtoProps = (dispatch: Dispatch) => {
         type: "KING_OR_ROOK_FIRST_MOVE",
         payload: { initialCellIndex, initialRowIndex, pieceColor, pieceType },
       }),
+    moveWhite: () => dispatch({ type: "WHITE_MOVE" }),
+    moveBlack: () => dispatch({ type: "BLACK_MOVE" }),
   };
 };
 
