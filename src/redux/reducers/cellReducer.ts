@@ -90,7 +90,14 @@ const cellReducer = (state = cells, action: any) => {
           tempCells[7][4].child = "black-rook";
           tempCells[7][7].child = "";
         }
+      } else if (
+        data.cellGiverPieceType === "pawn" &&
+        state[data.cellTakerRowNumber][data.cellTakerCellNumber].child === "" &&
+        data.cellGiverCellNumber !== data.cellTakerCellNumber
+      ) {
+        tempCells[data.cellGiverRowNumber][data.cellTakerCellNumber].child = "";
       }
+
       return tempCells;
 
     default:

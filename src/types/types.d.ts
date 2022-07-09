@@ -3,6 +3,13 @@ export interface Store {
   dragReducer: Drag;
   kingRookTrackerReducer: KingRookTracker;
   moveTurnReducer: MoveTurn;
+  fastPawnReducer: FastPawn;
+}
+
+export interface FastPawn {
+  pawnRow: number;
+  pawnCell: number;
+  pawnColor: string;
 }
 
 export interface MoveTurn {

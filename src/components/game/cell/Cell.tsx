@@ -2,7 +2,13 @@ import React, { ReactElement } from "react";
 import "./cell.css";
 import { connect } from "react-redux";
 import type { Dispatch } from "redux";
-import { Store, Drag, CellType, KingRookTracker } from "../../../types/types";
+import {
+  Store,
+  Drag,
+  CellType,
+  KingRookTracker,
+  FastPawn,
+} from "../../../types/types";
 import allowPieceMoves from "../../../logic/allowPieceMoves";
 
 const Cell = ({
@@ -15,10 +21,12 @@ const Cell = ({
   cells,
   track,
   turn,
+  fastPawn,
   renewOnDrop,
   trackKingRookFirstMoves,
   moveWhite,
   moveBlack,
+  trackFastPawn,
 }: {
   color: string;
   children?: ReactElement;
@@ -29,6 +37,7 @@ const Cell = ({
   cells: CellType[][];
   track: KingRookTracker;
   turn: boolean;
+  fastPawn: FastPawn;
   renewOnDrop: (
     cellGiverRowNumber: number,
     cellGiverCellNumber: number,
@@ -46,10 +55,25 @@ const Cell = ({
   ) => void;
   moveWhite: () => void;
   moveBlack: () => void;
+  trackFastPawn: (
+    rowIndex: number,
+    cellIndex: number,
+    pieceColor: string
+  ) => void;
 }) => {
   const handleDragOver = (event: any) => {
     if (
-      allowPieceMoves(drag, pieceColor, cellIndex, rowIndex, cells, track, turn)
+      allowPieceMoves(
+        drag,
+        pieceColor,
+        cellIndex,
+        rowIndex,
+        cells,
+        track,
+        turn,
+        fastPawn,
+        trackFastPawn
+      )
     ) {
       event.preventDefault();
     }
@@ -95,6 +119,7 @@ const mapStateToProps = (state: Store) => ({
   cells: state.cellReducer,
   track: state.kingRookTrackerReducer,
   turn: state.moveTurnReducer.turn,
+  fastPawn: state.fastPawnReducer,
 });
 
 const mapDispatchtoProps = (dispatch: Dispatch) => {
@@ -132,6 +157,11 @@ const mapDispatchtoProps = (dispatch: Dispatch) => {
       }),
     moveWhite: () => dispatch({ type: "WHITE_MOVE" }),
     moveBlack: () => dispatch({ type: "BLACK_MOVE" }),
+    trackFastPawn: (rowIndex: number, cellIndex: number, pieceColor: string) =>
+      dispatch({
+        type: "NEW_FAST_PAWN",
+        payload: { rowIndex, cellIndex, pieceColor },
+      }),
   };
 };
 

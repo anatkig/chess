@@ -1,4 +1,4 @@
-import { Drag, CellType, KingRookTracker } from "../types/types";
+import { Drag, CellType, KingRookTracker, FastPawn } from "../types/types";
 import allowPawnMoves from "./allowPawnMoves";
 import allowRookMoves from "./allowRookMoves";
 import allowBishopMoves from "./allowBishopMoves";
@@ -11,7 +11,13 @@ const allowPieceMoves = (
   rowIndex: number,
   cells: CellType[][],
   track: KingRookTracker,
-  turn: boolean
+  turn: boolean,
+  fastPawn: FastPawn,
+  trackFastPawn: (
+    rowIndex: number,
+    cellIndex: number,
+    pieceColor: string
+  ) => void
 ) => {
   const initRow = drag.dragStartCoordinates[0];
   const initCell = drag.dragStartCoordinates[1];
@@ -29,7 +35,9 @@ const allowPieceMoves = (
           rowIndex,
           initRow,
           initPieceColor,
-          cells
+          cells,
+          fastPawn,
+          trackFastPawn
         );
       } else if (initType === "king") {
         return allowKingMoves(
