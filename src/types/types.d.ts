@@ -15,6 +15,7 @@ export interface FastPawn {
 
 export interface Check {
   check: boolean;
+  threatPaths: number[][];
 }
 
 export interface MoveTurn {

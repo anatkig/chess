@@ -14,11 +14,14 @@ const allowPieceMoves = (
   turn: boolean,
   fastPawn: FastPawn,
   check: boolean,
+
   trackFastPawn: (
     rowIndex: number,
     cellIndex: number,
     pieceColor: string
-  ) => void
+  ) => void,
+  threatPaths?: number[][],
+  setCheck?: (threatPath: number[][]) => void
 ) => {
   const initRow = drag.dragStartCoordinates[0];
   const initCell = drag.dragStartCoordinates[1];
@@ -28,7 +31,12 @@ const allowPieceMoves = (
     (initPieceColor === "black" && !turn) ||
     (initPieceColor === "white" && turn)
   ) {
-    if (check === false || initType === "king") {
+    if (
+      check === false ||
+      (threatPaths?.some((path) => path[0] === rowIndex) &&
+        threatPaths?.some((path) => path[1] === cellIndex)) ||
+      initType === "king"
+    ) {
       if (initPieceColor !== pieceColor) {
         if (initType === "pawn") {
           return allowPawnMoves(
@@ -39,7 +47,8 @@ const allowPieceMoves = (
             initPieceColor,
             cells,
             fastPawn,
-            trackFastPawn
+            trackFastPawn,
+            setCheck
           );
         } else if (initType === "king") {
           return allowKingMoves(
@@ -60,7 +69,8 @@ const allowPieceMoves = (
               initCell,
               cellIndex,
               cells,
-              initPieceColor
+              initPieceColor,
+              setCheck
             ) ||
             allowRookMoves(
               initRow,
@@ -68,7 +78,8 @@ const allowPieceMoves = (
               initCell,
               cellIndex,
               cells,
-              initPieceColor
+              initPieceColor,
+              setCheck
             )
           ) {
             return true;
@@ -80,7 +91,8 @@ const allowPieceMoves = (
             initCell,
             cellIndex,
             cells,
-            initPieceColor
+            initPieceColor,
+            setCheck
           );
         } else if (initType === "bishop") {
           return allowBishopMoves(
@@ -89,7 +101,8 @@ const allowPieceMoves = (
             initCell,
             cellIndex,
             cells,
-            initPieceColor
+            initPieceColor,
+            setCheck
           );
         } else if (initType === "knight") {
           if (
@@ -98,6 +111,12 @@ const allowPieceMoves = (
             (Math.abs(initCell - cellIndex) === 2 &&
               Math.abs(initRow - rowIndex) === 1)
           ) {
+            if (cells[rowIndex][cellIndex].child.includes("king") && setCheck) {
+              setCheck([
+                [initRow, initCell],
+                [rowIndex, cellIndex],
+              ]);
+            }
             return true;
           }
         }

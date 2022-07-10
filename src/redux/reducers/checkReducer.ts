@@ -1,18 +1,21 @@
-const check = {
+const checkInfo = {
   check: false,
+  threatPaths: [],
 };
 
-const checkReducer = (state = check, action: any) => {
+const checkReducer = (state = checkInfo, action: any) => {
   switch (action.type) {
     case "SET_CHECK":
       return {
-        ...check,
+        ...state,
         check: true,
+        threatPaths: [...action.payload],
       };
     case "UNSET_CHECK":
       return {
-        ...check,
+        ...state,
         check: false,
+        threatPath: [],
       };
     default:
       return state;

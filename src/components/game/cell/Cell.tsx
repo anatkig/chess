@@ -8,6 +8,7 @@ import {
   CellType,
   KingRookTracker,
   FastPawn,
+  Check,
 } from "../../../types/types";
 import allowPieceMoves from "../../../logic/allowPieceMoves";
 
@@ -23,6 +24,8 @@ const Cell = ({
   turn,
   fastPawn,
   check,
+  threatPaths,
+  checks,
   renewOnDrop,
   trackKingRookFirstMoves,
   moveWhite,
@@ -42,6 +45,8 @@ const Cell = ({
   turn: boolean;
   fastPawn: FastPawn;
   check: boolean;
+  threatPaths: number[][];
+  checks: Check;
   renewOnDrop: (
     cellGiverRowNumber: number,
     cellGiverCellNumber: number,
@@ -64,7 +69,7 @@ const Cell = ({
     cellIndex: number,
     pieceColor: string
   ) => void;
-  setCheck: () => void;
+  setCheck: (threatPath: number[][]) => void;
   unsetCheck: () => void;
 }) => {
   const handleDragOver = (event: any) => {
@@ -79,14 +84,18 @@ const Cell = ({
         turn,
         fastPawn,
         check,
-        trackFastPawn
+        trackFastPawn,
+        threatPaths
       )
     ) {
       event.preventDefault();
     }
   };
 
-  const handleDrop = (event: any) => {
+  const handleDrop = () => {
+    if (!check) {
+      unsetCheck();
+    }
     renewOnDrop(
       drag.dragStartCoordinates[0],
       drag.dragStartCoordinates[1],
@@ -127,28 +136,25 @@ const Cell = ({
       })
     );
 
-    if (
-      allowPieceMoves(
-        {
-          dragStartCoordinates: [rowIndex, cellIndex],
-          type: drag.type,
-          color: drag.color,
-        },
-        pieceColor,
-        kingLocation[1],
-        kingLocation[0],
-        cells,
-        track,
-        turn,
-        fastPawn,
-        check,
-        trackFastPawn
-      )
-    ) {
-      setCheck();
-    } else {
-      unsetCheck();
-    }
+    // also checkes if the next move target the enemy king thus checking it
+    allowPieceMoves(
+      {
+        dragStartCoordinates: [rowIndex, cellIndex],
+        type: drag.type,
+        color: drag.color,
+      },
+      pieceColor,
+      kingLocation[1],
+      kingLocation[0],
+      cells,
+      track,
+      turn,
+      fastPawn,
+      check,
+      trackFastPawn,
+      threatPaths,
+      setCheck
+    );
   };
   return (
     <div
@@ -170,6 +176,8 @@ const mapStateToProps = (state: Store) => ({
   turn: state.moveTurnReducer.turn,
   fastPawn: state.fastPawnReducer,
   check: state.checkReducer.check,
+  threatPaths: state.checkReducer.threatPaths,
+  checks: state.checkReducer,
 });
 
 const mapDispatchtoProps = (dispatch: Dispatch) => {
@@ -212,7 +220,8 @@ const mapDispatchtoProps = (dispatch: Dispatch) => {
         type: "NEW_FAST_PAWN",
         payload: { rowIndex, cellIndex, pieceColor },
       }),
-    setCheck: () => dispatch({ type: "SET_CHECK" }),
+    setCheck: (threatPaths: number[][]) =>
+      dispatch({ type: "SET_CHECK", payload: threatPaths }),
     unsetCheck: () => dispatch({ type: "UNSET_CHECK" }),
   };
 };
