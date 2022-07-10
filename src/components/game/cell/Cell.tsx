@@ -22,11 +22,14 @@ const Cell = ({
   track,
   turn,
   fastPawn,
+  check,
   renewOnDrop,
   trackKingRookFirstMoves,
   moveWhite,
   moveBlack,
   trackFastPawn,
+  setCheck,
+  unsetCheck,
 }: {
   color: string;
   children?: ReactElement;
@@ -38,6 +41,7 @@ const Cell = ({
   track: KingRookTracker;
   turn: boolean;
   fastPawn: FastPawn;
+  check: boolean;
   renewOnDrop: (
     cellGiverRowNumber: number,
     cellGiverCellNumber: number,
@@ -60,6 +64,8 @@ const Cell = ({
     cellIndex: number,
     pieceColor: string
   ) => void;
+  setCheck: () => void;
+  unsetCheck: () => void;
 }) => {
   const handleDragOver = (event: any) => {
     if (
@@ -72,10 +78,76 @@ const Cell = ({
         track,
         turn,
         fastPawn,
+        check,
         trackFastPawn
       )
     ) {
       event.preventDefault();
+    }
+  };
+
+  const handleDrop = (event: any) => {
+    renewOnDrop(
+      drag.dragStartCoordinates[0],
+      drag.dragStartCoordinates[1],
+      rowIndex,
+      cellIndex,
+      drag.color,
+      drag.type,
+      track
+    );
+    if (drag.type === "king" || drag.type === "rook") {
+      trackKingRookFirstMoves(
+        drag.dragStartCoordinates[1],
+        drag.dragStartCoordinates[0],
+        drag.type,
+        drag.color
+      );
+    }
+    if (drag.color === "white") {
+      moveBlack();
+    } else {
+      moveWhite();
+    }
+
+    const kingLocation = [] as unknown as [number, number];
+    cells.some((row, rowInd) =>
+      row.some((cell, cellInd) => {
+        const cellChildValues = cell.child.split("-");
+        if (
+          drag.color !== cellChildValues[0] &&
+          cellChildValues[1] === "king"
+        ) {
+          kingLocation.push(rowInd);
+          kingLocation.push(cellInd);
+          return true;
+        } else {
+          return false;
+        }
+      })
+    );
+
+    if (
+      allowPieceMoves(
+        {
+          dragStartCoordinates: [rowIndex, cellIndex],
+          type: drag.type,
+          color: drag.color,
+        },
+        pieceColor,
+        kingLocation[1],
+        kingLocation[0],
+        cells,
+        track,
+        turn,
+        fastPawn,
+        check,
+        trackFastPawn
+      )
+    ) {
+      setCheck();
+    } else {
+      unsetCheck();
     }
   };
   return (
@@ -84,30 +156,7 @@ const Cell = ({
         color === "white" ? "bg-[#E2BB7B]" : "bg-[#AE734E]"
       } flex place-items-center justify-center cell`}
       onDragOver={handleDragOver}
-      onDrop={() => {
-        renewOnDrop(
-          drag.dragStartCoordinates[0],
-          drag.dragStartCoordinates[1],
-          rowIndex,
-          cellIndex,
-          drag.color,
-          drag.type,
-          track
-        );
-        if (drag.type === "king" || drag.type === "rook") {
-          trackKingRookFirstMoves(
-            drag.dragStartCoordinates[1],
-            drag.dragStartCoordinates[0],
-            drag.type,
-            drag.color
-          );
-        }
-        if (drag.color === "white") {
-          moveBlack();
-        } else {
-          moveWhite();
-        }
-      }}
+      onDrop={handleDrop}
     >
       {children}
     </div>
@@ -120,6 +169,7 @@ const mapStateToProps = (state: Store) => ({
   track: state.kingRookTrackerReducer,
   turn: state.moveTurnReducer.turn,
   fastPawn: state.fastPawnReducer,
+  check: state.checkReducer.check,
 });
 
 const mapDispatchtoProps = (dispatch: Dispatch) => {
@@ -162,6 +212,8 @@ const mapDispatchtoProps = (dispatch: Dispatch) => {
         type: "NEW_FAST_PAWN",
         payload: { rowIndex, cellIndex, pieceColor },
       }),
+    setCheck: () => dispatch({ type: "SET_CHECK" }),
+    unsetCheck: () => dispatch({ type: "UNSET_CHECK" }),
   };
 };
 

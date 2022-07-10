@@ -4,12 +4,17 @@ export interface Store {
   kingRookTrackerReducer: KingRookTracker;
   moveTurnReducer: MoveTurn;
   fastPawnReducer: FastPawn;
+  checkReducer: Check;
 }
 
 export interface FastPawn {
   pawnRow: number;
   pawnCell: number;
   pawnColor: string;
+}
+
+export interface Check {
+  check: boolean;
 }
 
 export interface MoveTurn {
