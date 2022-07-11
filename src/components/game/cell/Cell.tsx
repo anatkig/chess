@@ -93,7 +93,7 @@ const Cell = ({
   };
 
   const handleDrop = () => {
-    if (!check) {
+    if (check) {
       unsetCheck();
     }
     renewOnDrop(

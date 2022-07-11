@@ -61,14 +61,19 @@ const allowPieceMoves = (
             return true;
           }
         } else if (initType === "king") {
-          return allowKingMoves(
-            initRow,
-            rowIndex,
-            initCell,
-            cellIndex,
-            cells,
-            initPieceColor,
-            track
+          return (
+            allowKingMoves(
+              initRow,
+              rowIndex,
+              initCell,
+              cellIndex,
+              cells,
+              initPieceColor,
+              track
+            ) &&
+            !threatPaths?.some(
+              (path) => path[0] === rowIndex && path[1] === cellIndex
+            )
           );
         } else if (initType === "queen") {
           // the queen, in essence, combines the rook and the bishop
