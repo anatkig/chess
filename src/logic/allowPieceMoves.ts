@@ -33,8 +33,9 @@ const allowPieceMoves = (
   ) {
     if (
       check === false ||
-      (threatPaths?.some((path) => path[0] === rowIndex) &&
-        threatPaths?.some((path) => path[1] === cellIndex)) ||
+      threatPaths?.some(
+        (path) => path[0] === rowIndex && path[1] === cellIndex
+      ) ||
       initType === "king"
     ) {
       if (initPieceColor !== pieceColor) {
