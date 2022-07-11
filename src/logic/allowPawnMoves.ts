@@ -12,8 +12,7 @@ const allowPawnMoves = (
     rowIndex: number,
     cellIndex: number,
     pieceColor: string
-  ) => void,
-  setCheck?: (threatPass: number[][]) => void
+  ) => void
 ) => {
   if (
     Math.abs(cellIndex - initCell) === 1 &&

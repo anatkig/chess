@@ -40,17 +40,26 @@ const allowPieceMoves = (
     ) {
       if (initPieceColor !== pieceColor) {
         if (initType === "pawn") {
-          return allowPawnMoves(
-            cellIndex,
-            initCell,
-            rowIndex,
-            initRow,
-            initPieceColor,
-            cells,
-            fastPawn,
-            trackFastPawn,
-            setCheck
-          );
+          if (
+            allowPawnMoves(
+              cellIndex,
+              initCell,
+              rowIndex,
+              initRow,
+              initPieceColor,
+              cells,
+              fastPawn,
+              trackFastPawn
+            )
+          ) {
+            if (cells[rowIndex][cellIndex].child.includes("king") && setCheck) {
+              setCheck([
+                [initRow, initCell],
+                [rowIndex, cellIndex],
+              ]);
+            }
+            return true;
+          }
         } else if (initType === "king") {
           return allowKingMoves(
             initRow,
