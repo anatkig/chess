@@ -1,8 +1,10 @@
+import { MoveTurnReducerAction } from "../../types/types";
+
 const moveTurn = {
   turn: true,
 };
 
-const moveTurnReducer = (state = moveTurn, action: any) => {
+const moveTurnReducer = (state = moveTurn, action: MoveTurnReducerAction) => {
   switch (action.type) {
     case "BLACK_MOVE":
       return {

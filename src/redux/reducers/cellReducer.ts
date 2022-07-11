@@ -1,4 +1,6 @@
-const cells: any = [...new Array(8)].map((row, rowNumber) =>
+import { CellReducerAction, CellType } from "../../types/types";
+
+const cells: CellType[][] = [...new Array(8)].map((row, rowNumber) =>
   [...new Array(8)].map((cell, colNumber) => ({
     backgroundColor:
       rowNumber % 2 === 0 && colNumber % 2 !== 0
@@ -35,12 +37,8 @@ const cells: any = [...new Array(8)].map((row, rowNumber) =>
   }))
 );
 
-const cellReducer = (state = cells, action: any) => {
+const cellReducer = (state = cells, action: CellReducerAction) => {
   switch (action.type) {
-    case "colorCell":
-      return cells.map(
-        (cell: any) => (cell.id = action.payload.id && cell.color === "green")
-      );
     case "RENEW_ON_DROP":
       const tempCells = JSON.parse(JSON.stringify(state));
       const data = action.payload;

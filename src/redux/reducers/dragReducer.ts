@@ -1,10 +1,12 @@
+import { DragReducerAction } from "../../types/types";
+
 const drag = {
   dragStartCoordinates: [0, 0],
   type: "",
   color: "",
 };
 
-const dragReducer = (state = drag, action: any) => {
+const dragReducer = (state = drag, action: DragReducerAction) => {
   switch (action.type) {
     case "DRAG_START":
       return {

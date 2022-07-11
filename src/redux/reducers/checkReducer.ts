@@ -1,9 +1,11 @@
+import { CheckReducerAction } from "../../types/types";
+
 const checkInfo = {
   check: false,
   threatPaths: [],
 };
 
-const checkReducer = (state = checkInfo, action: any) => {
+const checkReducer = (state = checkInfo, action: CheckReducerAction) => {
   switch (action.type) {
     case "SET_CHECK":
       return {

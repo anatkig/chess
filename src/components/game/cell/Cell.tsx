@@ -72,7 +72,7 @@ const Cell = ({
   setCheck: (threatPath: number[][]) => void;
   unsetCheck: () => void;
 }) => {
-  const handleDragOver = (event: any) => {
+  const handleDragOver = (event: React.DragEvent) => {
     if (
       allowPieceMoves(
         drag,

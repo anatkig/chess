@@ -41,3 +41,45 @@ export interface CellType {
   backgroundColor: string;
   child: string;
 }
+
+export interface CellReducerAction {
+  type: string;
+  payload: {
+    cellGiverRowNumber: number;
+    cellGiverCellNumber: number;
+    cellTakerRowNumber: number;
+    cellTakerCellNumber: number;
+    cellGiverPieceColor: string;
+    cellGiverPieceType: string;
+    track: KingRookTracker;
+  };
+}
+
+export interface CheckReducerAction {
+  type: string;
+  payload: number[][];
+}
+
+export interface DragReducerAction {
+  type: string;
+  payload: { dragPosition: [number, number]; type: string; color: string };
+}
+
+export interface FastPawnReducerAction {
+  type: string;
+  payload: { rowIndex: number; cellIndex: number; pieceColor: string };
+}
+
+export interface KingRookTrackerReducerAction {
+  type: string;
+  payload: {
+    initialCellIndex: number;
+    initialRowIndex: number;
+    pieceType: string;
+    pieceColor: string;
+  };
+}
+
+export interface MoveTurnReducerAction {
+  type: string;
+}

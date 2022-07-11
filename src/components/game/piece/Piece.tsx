@@ -30,7 +30,7 @@ const Piece = ({
     <div
       className="flex place-content-center cursor-pointer rotate-180 piece"
       draggable
-      onDragStart={(event: any) =>
+      onDragStart={() =>
         writeOnStartCoordinates([rowIndex, cellIndex], type, color)
       }
     >

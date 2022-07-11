@@ -1,10 +1,12 @@
+import { FastPawnReducerAction } from "../../types/types";
+
 const fastPawn = {
   pawnRow: null,
   pawnCell: null,
   pawnColor: "",
 };
 
-const fastPawnReducer = (state = fastPawn, action: any) => {
+const fastPawnReducer = (state = fastPawn, action: FastPawnReducerAction) => {
   switch (action.type) {
     case "NEW_FAST_PAWN":
       return {

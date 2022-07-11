@@ -1,3 +1,5 @@
+import { KingRookTrackerReducerAction } from "../../types/types";
+
 const tracker = {
   whiteKing: true,
   leftWhiteRook: true,
@@ -7,7 +9,10 @@ const tracker = {
   rightBlackRook: true,
 };
 // the reducer tracks whether kings or rooks have moved. This is necessary for castling
-const kingRookTrackerReducer = (state = tracker, action: any) => {
+const kingRookTrackerReducer = (
+  state = tracker,
+  action: KingRookTrackerReducerAction
+) => {
   switch (action.type) {
     case "KING_OR_ROOK_FIRST_MOVE":
       const data = action.payload;
