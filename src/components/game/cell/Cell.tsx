@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import "./cell.css";
 import { connect } from "react-redux";
 import type { Dispatch } from "redux";
 import {
@@ -160,7 +159,7 @@ const Cell = ({
     <div
       className={`${
         color === "white" ? "bg-[#E2BB7B]" : "bg-[#AE734E]"
-      } flex place-items-center justify-center cell`}
+      } w-[70px]  h-[70px] flex place-items-center justify-center cell`}
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
