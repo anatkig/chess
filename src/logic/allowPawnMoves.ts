@@ -8,6 +8,7 @@ const allowPawnMoves = (
   initPieceColor: string,
   cells: CellType[][],
   fastPawn: FastPawn,
+  controlZoneCheck: string | undefined,
   trackFastPawn: (
     rowIndex: number,
     cellIndex: number,
@@ -18,10 +19,12 @@ const allowPawnMoves = (
     Math.abs(cellIndex - initCell) === 1 &&
     ((initPieceColor === "white" &&
       rowIndex - initRow === 1 &&
-      cells[rowIndex][cellIndex].child.includes("black")) ||
+      (cells[rowIndex][cellIndex].child.includes("black") ||
+        controlZoneCheck === "controlZoneCheck")) ||
       (initPieceColor === "black" &&
         initRow - rowIndex === 1 &&
-        cells[rowIndex][cellIndex].child.includes("white")))
+        (cells[rowIndex][cellIndex].child.includes("white") ||
+          controlZoneCheck === "controlZoneCheck")))
   ) {
     return true;
   } else if (

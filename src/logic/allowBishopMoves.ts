@@ -50,12 +50,14 @@ const allowBishopMoves = (
     if (
       passedCells.every((cell) => cell.child === "") &&
       !cells[rowIndex][cellIndex].child.includes(initPieceColor)
-    )
+    ) {
       if (cells[rowIndex][cellIndex].child.includes("king") && setCheck) {
         // collects coordinates of cells which can be blocked to prevent checking the king
         setCheck([[initRow, initCell], ...passedcellsCoordinates]);
       }
-    return true;
+
+      return true;
+    }
   }
 };
 

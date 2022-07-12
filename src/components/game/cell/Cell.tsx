@@ -135,7 +135,7 @@ const Cell = ({
       })
     );
 
-    // also checkes if the next move target the enemy king thus checking it
+    // also checks if the next move target the enemy king thus checking it
     allowPieceMoves(
       {
         dragStartCoordinates: [rowIndex, cellIndex],

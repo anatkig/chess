@@ -11,10 +11,39 @@ const allowKingMoves = (
 ) => {
   if (
     Math.abs(initRow - rowIndex) <= 1 &&
-    Math.abs(initCell - cellIndex) <= 1
+    Math.abs(initCell - cellIndex) <= 1 &&
+    !cells[rowIndex + 1]?.[cellIndex].child.includes(
+      `${initPieceColor === "white" ? "black" : "white"}-king`
+    ) &&
+    !cells[rowIndex - 1]?.[cellIndex].child.includes(
+      `${initPieceColor === "white" ? "black" : "white"}-king`
+    ) &&
+    !cells[rowIndex][cellIndex + 1].child.includes(
+      `${initPieceColor === "white" ? "black" : "white"}-king`
+    ) &&
+    !cells[rowIndex][cellIndex - 1].child.includes(
+      `${initPieceColor === "white" ? "black" : "white"}-king`
+    ) &&
+    !cells[rowIndex + 1]?.[cellIndex + 1].child.includes(
+      `${initPieceColor === "white" ? "black" : "white"}-king`
+    ) &&
+    !cells[rowIndex - 1]?.[cellIndex - 1].child.includes(
+      `${initPieceColor === "white" ? "black" : "white"}-king`
+    ) &&
+    !cells[rowIndex + 1]?.[cellIndex - 1].child.includes(
+      `${initPieceColor === "white" ? "black" : "white"}-king`
+    ) &&
+    !cells[rowIndex - 1]?.[cellIndex + 1].child.includes(
+      `${initPieceColor === "white" ? "black" : "white"}-king`
+    ) &&
+    !cells[rowIndex][cellIndex].child.includes(
+      `${initPieceColor === "white" ? "black" : "white"}-king`
+    )
   ) {
     return true;
-  } else if (
+  }
+  // castling
+  else if (
     initRow === 0 &&
     rowIndex === 0 &&
     cells[0][3].child === "white-king" &&
@@ -36,7 +65,9 @@ const allowKingMoves = (
     ) {
       return true;
     }
-  } else if (
+  }
+  // castling
+  else if (
     initRow === 7 &&
     rowIndex === 7 &&
     cells[7][3].child === "black-king" &&

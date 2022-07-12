@@ -83,3 +83,9 @@ export interface KingRookTrackerReducerAction {
 export interface MoveTurnReducerAction {
   type: string;
 }
+
+export interface PieceInfo {
+  rowNumber: number;
+  cellNumber: number;
+  type: string;
+}

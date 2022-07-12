@@ -1,4 +1,10 @@
-import { Drag, CellType, KingRookTracker, FastPawn } from "../types/types";
+import {
+  Drag,
+  CellType,
+  KingRookTracker,
+  FastPawn,
+  PieceInfo,
+} from "../types/types";
 import allowPawnMoves from "./allowPawnMoves";
 import allowRookMoves from "./allowRookMoves";
 import allowBishopMoves from "./allowBishopMoves";
@@ -49,6 +55,7 @@ const allowPieceMoves = (
               initPieceColor,
               cells,
               fastPawn,
+              pieceColor,
               trackFastPawn
             )
           ) {
@@ -61,20 +68,90 @@ const allowPieceMoves = (
             return true;
           }
         } else if (initType === "king") {
-          return (
-            allowKingMoves(
-              initRow,
-              rowIndex,
-              initCell,
-              cellIndex,
-              cells,
-              initPieceColor,
-              track
-            ) &&
-            !threatPaths?.some(
-              (path) => path[0] === rowIndex && path[1] === cellIndex
-            )
+          const whitePieces: PieceInfo[] = [];
+          const blackPieces: PieceInfo[] = [];
+          cells.forEach((row, rowInd) =>
+            row.forEach((cell, cellInd) => {
+              if (
+                cell.child.includes("white") &&
+                !cell.child.includes("king")
+              ) {
+                whitePieces.push({
+                  rowNumber: rowInd,
+                  cellNumber: cellInd,
+                  type: cell.child.split("-")[1],
+                });
+              }
+              if (
+                cell.child.includes("black") &&
+                !cell.child.includes("king")
+              ) {
+                blackPieces.push({
+                  rowNumber: rowInd,
+                  cellNumber: cellInd,
+                  type: cell.child.split("-")[1],
+                });
+              }
+            })
           );
+          if (
+            (initPieceColor === "white" &&
+              blackPieces.every((piece) => {
+                return !allowPieceMoves(
+                  {
+                    dragStartCoordinates: [piece.rowNumber, piece.cellNumber],
+                    type: piece.type,
+                    color: "black",
+                  },
+                  "controlZoneCheck",
+                  cellIndex,
+                  rowIndex,
+                  cells,
+                  track,
+                  false,
+                  fastPawn,
+                  check,
+                  trackFastPawn,
+                  threatPaths
+                );
+              })) ||
+            (initPieceColor === "black" &&
+              whitePieces.every(
+                (piece) =>
+                  !allowPieceMoves(
+                    {
+                      dragStartCoordinates: [piece.rowNumber, piece.cellNumber],
+                      type: piece.type,
+                      color: "white",
+                    },
+                    "controlZoneCheck",
+                    cellIndex,
+                    rowIndex,
+                    cells,
+                    track,
+                    true,
+                    fastPawn,
+                    check,
+                    trackFastPawn,
+                    threatPaths
+                  )
+              ))
+          ) {
+            return (
+              allowKingMoves(
+                initRow,
+                rowIndex,
+                initCell,
+                cellIndex,
+                cells,
+                initPieceColor,
+                track
+              ) &&
+              !threatPaths?.some(
+                (path) => path[0] === rowIndex && path[1] === cellIndex
+              )
+            );
+          }
         } else if (initType === "queen") {
           // the queen, in essence, combines the rook and the bishop
           if (
