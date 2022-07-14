@@ -8,6 +8,7 @@ import {
   KingRookTracker,
   FastPawn,
   Check,
+  PieceInfo,
 } from "../../../types/types";
 import allowPieceMoves from "../../../logic/allowPieceMoves";
 
@@ -87,7 +88,87 @@ const Cell = ({
         threatPaths
       )
     ) {
-      event.preventDefault();
+      // checking if the move will cause auto check
+      const whitePieces: PieceInfo[] = [];
+      const blackPieces: PieceInfo[] = [];
+
+      cells.forEach((row, rowInd) =>
+        row.forEach((cell, cellInd) => {
+          if (cell.child.includes("white")) {
+            whitePieces.push({
+              rowNumber: rowInd,
+              cellNumber: cellInd,
+              type: cell.child.split("-")[1],
+            });
+          }
+          if (cell.child.includes("black")) {
+            blackPieces.push({
+              rowNumber: rowInd,
+              cellNumber: cellInd,
+              type: cell.child.split("-")[1],
+            });
+          }
+        })
+      );
+
+      const whiteKingPosition = whitePieces.find(
+        (piece) => piece.type === "king"
+      );
+      const blackKingPosition = blackPieces.find(
+        (piece) => piece.type === "king"
+      );
+
+      const futureCells = JSON.parse(JSON.stringify(cells));
+      futureCells[rowIndex][cellIndex].child = `${drag.color}-${drag.type}`;
+      futureCells[drag.dragStartCoordinates[0]][
+        drag.dragStartCoordinates[1]
+      ].child = "";
+
+      if (
+        (drag.color === "white" &&
+          blackPieces.every((piece) => {
+            return !allowPieceMoves(
+              {
+                dragStartCoordinates: [piece.rowNumber, piece.cellNumber],
+                type: piece.type,
+                color: "black",
+              },
+              "controlZoneCheck",
+              whiteKingPosition?.cellNumber || 3,
+              whiteKingPosition?.rowNumber || 0,
+              futureCells,
+              track,
+              false,
+              fastPawn,
+              check,
+              trackFastPawn,
+              threatPaths
+            );
+          })) ||
+        (drag.color === "black" &&
+          whitePieces.every(
+            (piece) =>
+              !allowPieceMoves(
+                {
+                  dragStartCoordinates: [piece.rowNumber, piece.cellNumber],
+                  type: piece.type,
+                  color: "white",
+                },
+                "controlZoneCheck",
+                blackKingPosition?.cellNumber || 3,
+                blackKingPosition?.rowNumber || 7,
+                futureCells,
+                track,
+                true,
+                fastPawn,
+                check,
+                trackFastPawn,
+                threatPaths
+              )
+          ))
+      ) {
+        event.preventDefault();
+      }
     }
   };
 
