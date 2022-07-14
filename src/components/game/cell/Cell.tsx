@@ -11,6 +11,15 @@ import {
   PieceInfo,
 } from "../../../types/types";
 import allowPieceMoves from "../../../logic/allowPieceMoves";
+import {
+  KING_OR_ROOK_FIRST_MOVE,
+  WHITE_MOVE,
+  BLACK_MOVE,
+  NEW_FAST_PAWN,
+  SET_CHECK,
+  UNSET_CHECK,
+  RENEW_ON_DROP,
+} from "../../../constants/constants";
 
 const Cell = ({
   color,
@@ -272,7 +281,7 @@ const mapDispatchtoProps = (dispatch: Dispatch) => {
       track: KingRookTracker
     ) =>
       dispatch({
-        type: "RENEW_ON_DROP",
+        type: RENEW_ON_DROP,
         payload: {
           cellGiverRowNumber,
           cellGiverCellNumber,
@@ -290,19 +299,19 @@ const mapDispatchtoProps = (dispatch: Dispatch) => {
       pieceColor: string
     ) =>
       dispatch({
-        type: "KING_OR_ROOK_FIRST_MOVE",
+        type: KING_OR_ROOK_FIRST_MOVE,
         payload: { initialCellIndex, initialRowIndex, pieceColor, pieceType },
       }),
-    moveWhite: () => dispatch({ type: "WHITE_MOVE" }),
-    moveBlack: () => dispatch({ type: "BLACK_MOVE" }),
+    moveWhite: () => dispatch({ type: WHITE_MOVE }),
+    moveBlack: () => dispatch({ type: BLACK_MOVE }),
     trackFastPawn: (rowIndex: number, cellIndex: number, pieceColor: string) =>
       dispatch({
-        type: "NEW_FAST_PAWN",
+        type: NEW_FAST_PAWN,
         payload: { rowIndex, cellIndex, pieceColor },
       }),
     setCheck: (threatPaths: number[][]) =>
-      dispatch({ type: "SET_CHECK", payload: threatPaths }),
-    unsetCheck: () => dispatch({ type: "UNSET_CHECK" }),
+      dispatch({ type: SET_CHECK, payload: threatPaths }),
+    unsetCheck: () => dispatch({ type: UNSET_CHECK }),
   };
 };
 

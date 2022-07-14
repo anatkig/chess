@@ -1,4 +1,5 @@
 import { CellReducerAction, CellType } from "../../types/types";
+import { RENEW_ON_DROP } from "../../constants/constants";
 
 const cells: CellType[][] = [...new Array(8)].map((row, rowNumber) =>
   [...new Array(8)].map((cell, colNumber) => ({
@@ -39,7 +40,7 @@ const cells: CellType[][] = [...new Array(8)].map((row, rowNumber) =>
 
 const cellReducer = (state = cells, action: CellReducerAction) => {
   switch (action.type) {
-    case "RENEW_ON_DROP":
+    case RENEW_ON_DROP:
       const tempCells = JSON.parse(JSON.stringify(state));
       const data = action.payload;
 

@@ -1,4 +1,5 @@
 import { KingRookTrackerReducerAction } from "../../types/types";
+import { KING_OR_ROOK_FIRST_MOVE } from "../../constants/constants";
 
 const tracker = {
   whiteKing: true,
@@ -14,7 +15,7 @@ const kingRookTrackerReducer = (
   action: KingRookTrackerReducerAction
 ) => {
   switch (action.type) {
-    case "KING_OR_ROOK_FIRST_MOVE":
+    case KING_OR_ROOK_FIRST_MOVE:
       const data = action.payload;
 
       if (data.pieceType === "king" && data.pieceColor === "white") {

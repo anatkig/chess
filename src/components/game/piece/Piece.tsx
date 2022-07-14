@@ -8,6 +8,7 @@ import Knight from "../../pieces/Knight";
 import "./piece.css";
 import { connect } from "react-redux";
 import type { Dispatch } from "redux";
+import { DRAG_START } from "../../../constants/constants";
 
 const Piece = ({
   type,
@@ -56,8 +57,7 @@ const mapDispatchtoProps = (dispatch: Dispatch) => {
       dragPosition: [number, number],
       type: string,
       color: string
-    ) =>
-      dispatch({ type: "DRAG_START", payload: { dragPosition, type, color } }),
+    ) => dispatch({ type: DRAG_START, payload: { dragPosition, type, color } }),
   };
 };
 

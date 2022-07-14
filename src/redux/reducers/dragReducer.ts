@@ -1,4 +1,5 @@
 import { DragReducerAction } from "../../types/types";
+import { DRAG_START } from "../../constants/constants";
 
 const drag = {
   dragStartCoordinates: [0, 0],
@@ -8,7 +9,7 @@ const drag = {
 
 const dragReducer = (state = drag, action: DragReducerAction) => {
   switch (action.type) {
-    case "DRAG_START":
+    case DRAG_START:
       return {
         ...drag,
         dragStartCoordinates: [
