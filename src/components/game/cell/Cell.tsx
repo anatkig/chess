@@ -19,7 +19,10 @@ import {
   SET_CHECK,
   UNSET_CHECK,
   RENEW_ON_DROP,
+  SET_MATE,
 } from "../../../constants/constants";
+import checkIfCheckOrMate from "../../../logic/checkIfCheckOrMate";
+import store from "../../../redux/store";
 
 const Cell = ({
   color,
@@ -42,6 +45,7 @@ const Cell = ({
   trackFastPawn,
   setCheck,
   unsetCheck,
+  setMate,
 }: {
   color: string;
   children?: ReactElement;
@@ -73,13 +77,10 @@ const Cell = ({
   ) => void;
   moveWhite: () => void;
   moveBlack: () => void;
-  trackFastPawn: (
-    rowIndex: number,
-    cellIndex: number,
-    pieceColor: string
-  ) => void;
+  trackFastPawn: (rowIndex: number, cellIndex: number, pieceColor: string) => void;
   setCheck: (threatPath: number[][]) => void;
   unsetCheck: () => void;
+  setMate: () => void;
 }) => {
   const handleDragOver = (event: React.DragEvent) => {
     if (
@@ -120,18 +121,12 @@ const Cell = ({
         })
       );
 
-      const whiteKingPosition = whitePieces.find(
-        (piece) => piece.type === "king"
-      );
-      const blackKingPosition = blackPieces.find(
-        (piece) => piece.type === "king"
-      );
+      const whiteKingPosition = whitePieces.find((piece) => piece.type === "king");
+      const blackKingPosition = blackPieces.find((piece) => piece.type === "king");
 
       const futureCells = JSON.parse(JSON.stringify(cells));
       futureCells[rowIndex][cellIndex].child = `${drag.color}-${drag.type}`;
-      futureCells[drag.dragStartCoordinates[0]][
-        drag.dragStartCoordinates[1]
-      ].child = "";
+      futureCells[drag.dragStartCoordinates[0]][drag.dragStartCoordinates[1]].child = "";
 
       if (
         (drag.color === "white" &&
@@ -182,9 +177,6 @@ const Cell = ({
   };
 
   const handleDrop = () => {
-    if (check) {
-      unsetCheck();
-    }
     renewOnDrop(
       drag.dragStartCoordinates[0],
       drag.dragStartCoordinates[1],
@@ -212,10 +204,7 @@ const Cell = ({
     cells.some((row, rowInd) =>
       row.some((cell, cellInd) => {
         const cellChildValues = cell.child.split("-");
-        if (
-          drag.color !== cellChildValues[0] &&
-          cellChildValues[1] === "king"
-        ) {
+        if (drag.color !== cellChildValues[0] && cellChildValues[1] === "king") {
           kingLocation.push(rowInd);
           kingLocation.push(cellInd);
           return true;
@@ -225,7 +214,7 @@ const Cell = ({
       })
     );
 
-    // also checks if the next move target the enemy king thus checking it
+    // also checks if the next move targets the enemy king thus checking it
     allowPieceMoves(
       {
         dragStartCoordinates: [rowIndex, cellIndex],
@@ -244,6 +233,27 @@ const Cell = ({
       threatPaths,
       setCheck
     );
+    const currentCheck = (store.getState().checkReducer as Check).check;
+
+    if (currentCheck) {
+      const initColor = drag.color;
+
+      if (
+        checkIfCheckOrMate(
+          cells,
+          initColor,
+          track,
+          fastPawn,
+          check,
+          trackFastPawn,
+          allowPieceMoves,
+          threatPaths
+        )
+      ) {
+        setMate();
+      }
+      unsetCheck();
+    }
   };
   return (
     <div
@@ -265,6 +275,7 @@ const mapStateToProps = (state: Store) => ({
   turn: state.moveTurnReducer.turn,
   fastPawn: state.fastPawnReducer,
   check: state.checkReducer.check,
+  mate: state.checkReducer.mate,
   threatPaths: state.checkReducer.threatPaths,
   checks: state.checkReducer,
 });
@@ -309,9 +320,9 @@ const mapDispatchtoProps = (dispatch: Dispatch) => {
         type: NEW_FAST_PAWN,
         payload: { rowIndex, cellIndex, pieceColor },
       }),
-    setCheck: (threatPaths: number[][]) =>
-      dispatch({ type: SET_CHECK, payload: threatPaths }),
+    setCheck: (threatPaths: number[][]) => dispatch({ type: SET_CHECK, payload: threatPaths }),
     unsetCheck: () => dispatch({ type: UNSET_CHECK }),
+    setMate: () => dispatch({ type: SET_MATE }),
   };
 };
 

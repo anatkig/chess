@@ -1,8 +1,9 @@
 import { CheckReducerAction } from "../../types/types";
-import { SET_CHECK, UNSET_CHECK } from "../../constants/constants";
+import { SET_CHECK, UNSET_CHECK, SET_MATE } from "../../constants/constants";
 
 const checkInfo = {
   check: false,
+  mate: false,
   threatPaths: [],
 };
 
@@ -20,6 +21,8 @@ const checkReducer = (state = checkInfo, action: CheckReducerAction) => {
         check: false,
         threatPath: [],
       };
+    case SET_MATE:
+      return { ...state, mate: true };
     default:
       return state;
   }
