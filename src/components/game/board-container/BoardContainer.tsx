@@ -8,7 +8,7 @@ import Piece from "../piece/Piece";
 import WinWindow from "../../common/win-window/WinWindwow";
 import { CellType } from "../../../types/types";
 
-const Container = ({ cells, mate }: { cells: CellType[][]; mate: boolean }) => {
+const BoardContainer = ({ cells, mate }: { cells: CellType[][]; mate: boolean }) => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const Container = ({ cells, mate }: { cells: CellType[][]; mate: boolean }) => {
   return (
     <>
       <WinWindow showModal={showModal} setShowModal={setShowModal} />
-      <div className="container rotate-180">
+      <div className="board-container rotate-180">
         <Letters />
         <div className="flex mx-auto container-row w-[640px]">
           <Numbers />
@@ -57,4 +57,4 @@ const mapStateToProps = (state: Store) => ({
   mate: state.checkReducer.mate,
 });
 
-export default connect(mapStateToProps)(Container);
+export default connect(mapStateToProps)(BoardContainer);
