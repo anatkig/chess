@@ -1,12 +1,12 @@
 import { connect } from "react-redux";
 import React, { useEffect, useState } from "react";
-import { Store } from "../../../types/types";
-import Cell from "../cell/Cell";
-import Letters from "../letters/Letters";
-import Numbers from "../numbers/Numbers";
-import Piece from "../piece/Piece";
-import WinWindow from "../../common/win-window/WinWindwow";
-import { CellType } from "../../../types/types";
+import { Store } from "../../../../types/types";
+import Cell from "../../cell/Cell";
+import Letters from "../../parts/letters/Letters";
+import Numbers from "../../parts/numbers/Numbers";
+import Piece from "../../parts/piece/Piece";
+import WinWindow from "../../../common/win-window/WinWindwow";
+import { CellType } from "../../../../types/types";
 
 const BoardContainer = ({ cells, mate }: { cells: CellType[][]; mate: boolean }) => {
   const [showModal, setShowModal] = useState(false);

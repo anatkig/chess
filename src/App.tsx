@@ -3,7 +3,7 @@ import "./App.css";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import Header from "./components/common/header/Header";
-import MainContainer from "./components/game/main-container/MainContainer";
+import MainContainer from "./components/game/containers/main-container/MainContainer";
 
 function App() {
   return (
