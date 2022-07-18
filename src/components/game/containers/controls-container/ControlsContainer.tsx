@@ -1,7 +1,9 @@
+import Timer from "../../parts/timer/Timer";
+
 const ControlsContainer = () => {
   return (
     <div className="controls-container">
-      <div className="timer"></div>
+      <Timer />
       <div className="controls"></div>
     </div>
   );
