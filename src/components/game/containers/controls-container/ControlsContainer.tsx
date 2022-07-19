@@ -4,7 +4,11 @@ const ControlsContainer = () => {
   return (
     <div className="controls-container">
       <Timer />
-      <div className="controls"></div>
+      <div className="controls">
+        <button className="play-pause-restart">{}</button>
+        <button className="restart">{}</button>
+        <button className="give-up">{}</button>
+      </div>
     </div>
   );
 };
